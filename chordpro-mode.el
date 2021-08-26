@@ -99,7 +99,9 @@ already in the document."
 
 (defun chordpro-normalize-chord (chord)
   "Trim whitespace, capitalize first letter of chord."
-  (capitalize (replace-regexp-in-string "\\s " "" chord)))
+  (let ((trimmed (replace-regexp-in-string "\\s " "" chord))
+       (concat (upcase (substring trimmed nil 1)) (substring trimmed 1))
+  )))
   
 (defvar chordpro-chord-regexp
   "\\[\\([^][]*\\)\\]"
@@ -110,7 +112,7 @@ already in the document."
   (interactive)
   (let ((start (re-search-forward chordpro-chord-regexp nil t)))
     (if start
-        (progn 
+        (progn
           (kill-region (match-beginning 0) (match-end 0))
           (goto-char (match-beginning 0))))))
 
